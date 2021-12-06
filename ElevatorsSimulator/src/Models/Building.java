@@ -40,18 +40,18 @@ public class Building implements IBuilding {
 
     @Override
     public void updateQueue(Passenger passenger) {
-        Elevator lessUsed = elevators.get(elevators.size() - 1);
-        int passengersSize = 0;
+        Integer[] passengerSizesArray = new Integer[elevators.size()];
+        for (int i = 0 ; i < elevators.size(); i++) {
+            passengerSizesArray[i] = elevators.get(i).getStrategy().getFloorQueue().size()+
+                    elevators.get(i).getPassengers().size();
+        }
+        int minIndex = elevators.size() - 1;
         for (int i = elevators.size() - 1; i >= 0; --i) {
-            var elevator = elevators.get(i);
-            passengersSize = elevator.getPassengers().size();
-            int using = elevator.getStrategy().getFloorQueue().size() + passengersSize;
-            int minUsing = lessUsed.getStrategy().getFloorQueue().size() + passengersSize;
-            if (minUsing > using) {
-                lessUsed = elevator;
+            if (passengerSizesArray[minIndex] > passengerSizesArray[i]) {
+                minIndex= i;
             }
         }
-        lessUsed.getStrategy().getFloorQueue().add(passenger);
+        elevators.get(minIndex).getStrategy().getFloorQueue().add(passenger);
     }
 
     public BlockingQueue<Passenger> getPassengersQueue() {

@@ -5,16 +5,49 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import java.util.stream.Collectors;
+
 public class Floor {
     private CopyOnWriteArrayList<Passenger> passengerList;
     private double elevatorPoints;
     //public Building buildingReference;
-    private double floorHeight;
+    private double storey_Height;
     private double yCoordinate;
     private static Object elevatorLocker = new Object();
 
-    public Floor(){
+    public Floor(CopyOnWriteArrayList<Passenger> passengerList) {
+        this.passengerList = passengerList;
+    }
+
+    public Floor(double elevatorPoints) {
+        this.elevatorPoints = elevatorPoints;
+    }
+
+    public Floor() {
         passengerList = new CopyOnWriteArrayList<>();
+    }
+
+    public double getFloorHeight() {
+        return storey_Height;
+    }
+
+    public double getyCoordinate() {
+        return yCoordinate;
+    }
+
+    public static Object getElevatorLocker() {
+        return elevatorLocker;
+    }
+
+    public void setFloorHeight(double floorHeight) {
+        this.storey_Height = floorHeight;
+    }
+
+    public void setyCoordinate(double yCoordinate) {
+        this.yCoordinate = yCoordinate;
+    }
+
+    public static void setElevatorLocker(Object elevatorLocker) {
+        Floor.elevatorLocker = elevatorLocker;
     }
 
     public CopyOnWriteArrayList<Passenger> getPassengerList() {
@@ -33,8 +66,13 @@ public class Floor {
         this.elevatorPoints = elevatorPoints;
     }
 
-    public void setHeight(double height){ floorHeight = height;}
-    public double getHeight(){ return floorHeight;}
+    public void setHeight(double height) {
+        storey_Height = height;
+    }
+
+    public double getHeight() {
+        return storey_Height;
+    }
 
     public double getY() {
         return yCoordinate;
@@ -44,7 +82,7 @@ public class Floor {
         this.yCoordinate = yCoordinate;
     }
 
-    public double getNextPassengerPosition(){
+    public double getNextPassengerPosition() {
         double pos;
         WorldInformation wi = WorldInformation.getInstance();
         double leftOffset = wi.get_xMargin() + wi.getElevatorWidth();
@@ -56,30 +94,18 @@ public class Floor {
                         x.getState() == PassengerState.Spawned).count() - 1;
         double passengerOffset = passengersCount * (wi.getPassengerWidth() + wi.getPassengerMargin());
         pos = leftOffset + passengerOffset;
-        /*var waitingPassengers = passengerList.stream()
-                .filter(x -> x.getState() == PassengerState.Waiting )
-                .collect(Collectors.toList());
-        if(waitingPassengers.isEmpty()){
-            pos = leftOffset + wi.getPassengerMargin() + wi.getElevatorWidth() + 5;
-        }
-        else {
-            pos = waitingPassengers.get(waitingPassengers.size() - 1).getX()
-                    + wi.getPassengerMargin();
-        }*/
-
         return pos;
     }
 
     public void ElevatorSourceFloorArrivedIgnoreStrategy(Elevator elevator,
-                                                         Passenger passengerToMove){
+                                                         Passenger passengerToMove) {
         //1 - забираємо з поверху
         //2 - додаємо у ліфт
         Building building = WorldInformation.getInstance().getBuilding();
         int floorIndex = WorldInformation.getInstance().getBuilding().getFloors().indexOf(this);
-        for (int i = 0; i < passengerList.size(); ++i){
+        for (int i = 0; i < passengerList.size(); ++i) {
             Passenger passenger = passengerList.get(i);
-            if(passengerToMove.getDestinationFloor() == passenger.getDestinationFloor()){
-                //passenger.setState(PassengerState.Leaving);
+            if (passengerToMove.getDestinationFloor() == passenger.getDestinationFloor()) {
                 passengerList.remove(passenger);
                 elevator.getPassengers().add(passenger);
                 building.getLeavingList().add(passenger);
@@ -88,7 +114,7 @@ public class Floor {
         }
     }
 
-    public void ElevatorDestinationFloorArrivedIgnoreStrategy(Elevator elevator){
+    public void ElevatorDestinationFloorArrivedIgnoreStrategy(Elevator elevator) {
         //1 - забираємо з ліфта
         //2 - додаємо на поверх
         int floorIndex = WorldInformation.getInstance().getBuilding().getFloors().indexOf(this);
@@ -101,19 +127,19 @@ public class Floor {
         }
     }
 
-    public void ElevatorArrived(Elevator elevator){
+    public void ElevatorArrived(Elevator elevator) {
         Building building = WorldInformation.getInstance().getBuilding();
         int floorIndex = building.getFloors().indexOf(this);
-            for (int i = 0; i < elevator.getPassengers().size(); ++i) {
-                Passenger p = elevator.getPassengers().get(i);
-                if (p.getDestinationFloor() == floorIndex) {
-                    p.setState(PassengerState.Leaving);
-                    elevator.getPassengers().remove(p);
-                    building.getLeavingList().add(p);
-                    p.Leave(elevator);
-                    --i;
-                }
+        for (int i = 0; i < elevator.getPassengers().size(); ++i) {
+            Passenger p = elevator.getPassengers().get(i);
+            if (p.getDestinationFloor() == floorIndex) {
+                p.setState(PassengerState.Leaving);
+                elevator.getPassengers().remove(p);
+                building.getLeavingList().add(p);
+                p.Leave(elevator);
+                --i;
             }
+        }
 
         synchronized (this) {
             List<Passenger> addedPassengers = new ArrayList<>();
@@ -134,13 +160,13 @@ public class Floor {
         //RearrangePassengers();
     }
 
-    public void RearrangePassengers(){
+    public void RearrangePassengers() {
         List<Passenger> backUp = new ArrayList<>(passengerList);
         passengerList.clear();
         Thread rearrangeThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                for (var p: backUp) {
+                for (var p : backUp) {
                     p.getStrategy().Move(getNextPassengerPosition());
                     passengerList.add(p);
                 }

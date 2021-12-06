@@ -3,10 +3,8 @@ package Models;
 import Interfaces.IBuilding;
 import Interfaces.IElevator;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.lang.reflect.Array;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -42,18 +40,18 @@ public class Building implements IBuilding {
 
     @Override
     public void updateQueue(Passenger passenger) {
-        Elevator minUsed = elevators.get(elevators.size() - 1);
+        Elevator lessUsed = elevators.get(elevators.size() - 1);
+        int passengersSize = 0;
         for (int i = elevators.size() - 1; i >= 0; --i) {
             var elevator = elevators.get(i);
-            int using = elevator.getStrategy().getFloorQueue().size() +
-                    elevator.getPassengers().size();
-            int minUsing = minUsed.getStrategy().getFloorQueue().size() +
-                    elevator.getPassengers().size();
+            passengersSize = elevator.getPassengers().size();
+            int using = elevator.getStrategy().getFloorQueue().size() + passengersSize;
+            int minUsing = lessUsed.getStrategy().getFloorQueue().size() + passengersSize;
             if (minUsing > using) {
-                minUsed = elevator;
+                lessUsed = elevator;
             }
         }
-        minUsed.getStrategy().getFloorQueue().add(passenger);
+        lessUsed.getStrategy().getFloorQueue().add(passenger);
     }
 
     public BlockingQueue<Passenger> getPassengersQueue() {
@@ -71,7 +69,6 @@ public class Building implements IBuilding {
                 PassengerFactory factory = new PassengerFactory(floors.size());
                 Random random = new Random();
                 ExecutorService executor = Executors.newFixedThreadPool(10);
-
                 while (true) {
                     if (passengersQueue.size() > 10) {
                         try {
@@ -85,8 +82,6 @@ public class Building implements IBuilding {
                     passenger.setY(passengersFloor.getY());
                     passenger.setX(WorldInformation.getInstance().getWorldWidth());
                     passengersFloor.getPassengerList().add(passenger);
-
-
                     Future<?> f = executor.submit(() -> {
                                 passenger.getStrategy().Move(passengersFloor.getNextPassengerPosition());
                                 synchronized (updateLocker) {
@@ -94,7 +89,6 @@ public class Building implements IBuilding {
                                 }
                             }
                     );
-
                     try {
                         Thread.sleep(random.nextInt(10000) + 1000);
                     } catch (InterruptedException e) {
@@ -104,14 +98,12 @@ public class Building implements IBuilding {
                 }
             }
         });
-
         factoryThread.start();
         for (var elevator : elevators) {
             Thread thread = new Thread(elevator);
             thread.start();
         }
     }
-
     public CopyOnWriteArrayList<Passenger> getLeavingList() {
         return leavingList;
     }

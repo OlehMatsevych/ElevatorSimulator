@@ -157,18 +157,10 @@ public class Elevator extends BaseElevator implements Runnable {
     }
 
     public void OpenDoors() {
-        double step = 0.0000001;
-        while (exitDoorWidth > 0) {
-            exitDoorWidth -= step;
-        }
         state = ElevatorState.Stopped;
     }
 
     public void CloseDoors() {
-        double step = 0.0000001;
-        while (exitDoorWidth < constDoorWidth) {
-            exitDoorWidth += step;
-        }
         state = ElevatorState.Moving;
     }
 

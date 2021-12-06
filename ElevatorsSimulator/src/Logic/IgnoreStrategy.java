@@ -7,7 +7,7 @@ import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 
 public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
-    private static Object isEmptyLocker = new Object();
+    private static final Object isEmptyLocker = new Object();
 
     public IgnoreStrategy(Elevator elevator, BlockingQueue<Passenger> floorQueue) {
         super(elevator, floorQueue);
@@ -22,7 +22,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
         double step = 0.0000005;
         while(true) {
                 try {
-                    Passenger firstPassanger;
+                    Passenger firstPassenger;
                     if(elevator.getPassengers().isEmpty()) {
                         while (true) {
                             System.out.println("Elevator waiting");
@@ -33,7 +33,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                             }
                             synchronized (isEmptyLocker) {
                                 if (!floorQueue.isEmpty()) {
-                                    firstPassanger = floorQueue.poll();
+                                    firstPassenger = floorQueue.poll();
                                     isCalled = true;
                                     break;
                                 }
@@ -41,13 +41,13 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                         }
                     }
                     else {
-                        firstPassanger = elevator.getPassengers().get(0);
+                        firstPassenger = elevator.getPassengers().get(0);
                         isCalled = false;
                     }
 
                     if(isCalled) {
-                        Floor firstCalledFloor = wi.getBuilding().getFloors().get(firstPassanger.getSourceFloor());
-                        System.out.println("Elevator moving to " + firstPassanger.getSourceFloor() + " floor");
+                        Floor firstCalledFloor = wi.getBuilding().getFloors().get(firstPassenger.getSourceFloor());
+                        System.out.println("Elevator moving to " + firstPassenger.getSourceFloor() + " floor");
                         while (Math.abs(elevator.getY() - firstCalledFloor.getY()) > step) {
                             if (elevator.getY() < firstCalledFloor.getY()) {
                                 elevator.setY(elevator.getY() + step);
@@ -56,17 +56,17 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                             }
                         }
 
-                        System.out.println("Elevator stopped on " + firstPassanger.getSourceFloor() + " floor");
+                        System.out.println("Elevator stopped on " + firstPassenger.getSourceFloor() + " floor");
                         elevator.setCurrentFloor(firstCalledFloor);
                         elevator.Stop(firstCalledFloor);
 
-                        if(!elevator.getPassengers().contains(firstPassanger))
+                        if(!elevator.getPassengers().contains(firstPassenger))
                             continue;
                     }
 
                     //deliver
-                    Floor destinationFloor = wi.getBuilding().getFloors().get(firstPassanger.getDestinationFloor());
-                    System.out.println("Elevator moving to " + firstPassanger.getDestinationFloor() + " floor");
+                    Floor destinationFloor = wi.getBuilding().getFloors().get(firstPassenger.getDestinationFloor());
+                    System.out.println("Elevator moving to " + firstPassenger.getDestinationFloor() + " floor");
                     while (Math.abs(elevator.getY() - destinationFloor.getY()) > step) {
                         if (elevator.getY() < destinationFloor.getY()) {
                             elevator.setY(elevator.getY() + step);
@@ -75,13 +75,11 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                         }
                     }
 
-                    System.out.println("Elevator stopped on " + firstPassanger.getDestinationFloor() + " floor");
+                    System.out.println("Elevator stopped on " + firstPassenger.getDestinationFloor() + " floor");
                     elevator.setCurrentFloor(destinationFloor);
                     elevator.Stop(destinationFloor);
-                    if(elevator.getPassengers().contains(firstPassanger))
-                        elevator.getPassengers().remove(firstPassanger);
-                } catch (NullPointerException e) {
-                    continue;
+                    elevator.getPassengers().remove(firstPassenger);
+                } catch (NullPointerException ignored) {
                 }
             }
     }

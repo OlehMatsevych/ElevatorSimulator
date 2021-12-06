@@ -6,8 +6,8 @@ import Interfaces.IElevator;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Random;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 public class Building implements IBuilding {
@@ -15,9 +15,9 @@ public class Building implements IBuilding {
     private List<Floor> floors;
     private BlockingQueue<Passenger> passengersQueue;
     private CopyOnWriteArrayList<Passenger> leavingList;
-    private Object updateLocker = new Object();
+    private final Object updateLocker = new Object();
 
-    public Building(List<Elevator> elevators, List<Floor> floors, BlockingQueue<Passenger> passengersQueue){
+    public Building(List<Elevator> elevators, List<Floor> floors, BlockingQueue<Passenger> passengersQueue) {
         this.elevators = elevators;
         this.floors = floors;
         this.passengersQueue = passengersQueue;
@@ -43,13 +43,13 @@ public class Building implements IBuilding {
     @Override
     public void updateQueue(Passenger passenger) {
         Elevator minUsed = elevators.get(elevators.size() - 1);
-        for (int i = elevators.size() - 1; i >= 0 ; --i) {
+        for (int i = elevators.size() - 1; i >= 0; --i) {
             var elevator = elevators.get(i);
             int using = elevator.getStrategy().getFloorQueue().size() +
                     elevator.getPassengers().size();
             int minUsing = minUsed.getStrategy().getFloorQueue().size() +
                     elevator.getPassengers().size();
-            if(minUsing > using){
+            if (minUsing > using) {
                 minUsed = elevator;
             }
         }
@@ -57,20 +57,23 @@ public class Building implements IBuilding {
     }
 
     public BlockingQueue<Passenger> getPassengersQueue() {
-            return passengersQueue;
+        return passengersQueue;
     }
 
     public void setPassengersQueue(BlockingQueue<Passenger> passengersQueue) {
         this.passengersQueue = passengersQueue;
     }
 
-    public void runAllThreads(){
+    public void runAllThreads() throws InterruptedException {
         Thread factoryThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 PassengerFactory factory = new PassengerFactory(floors.size());
-                while (true){
-                    if(passengersQueue.size() > 10) {
+                Random random = new Random();
+                ExecutorService executor = Executors.newFixedThreadPool(10);
+
+                while (true) {
+                    if (passengersQueue.size() > 10) {
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
@@ -78,31 +81,32 @@ public class Building implements IBuilding {
                         }
                     }
                     Passenger passenger = factory.getPassenger();
-                    Floor passangersFloor = floors.get(passenger.getSourceFloor());
-                    passenger.setY(passangersFloor.getY());
+                    Floor passengersFloor = floors.get(passenger.getSourceFloor());
+                    passenger.setY(passengersFloor.getY());
                     passenger.setX(WorldInformation.getInstance().getWorldWidth());
-                    passangersFloor.getPassengerList().add(passenger);
-                    Thread passangerThread = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            passenger.getStrategy().Move(passangersFloor.getNextPassengerPosition());
-                            synchronized (updateLocker) {
-                                updateQueue(passenger);
+                    passengersFloor.getPassengerList().add(passenger);
+
+
+                    Future<?> f = executor.submit(() -> {
+                                passenger.getStrategy().Move(passengersFloor.getNextPassengerPosition());
+                                synchronized (updateLocker) {
+                                    updateQueue(passenger);
+                                }
                             }
-                        }
-                    });
-                    passangerThread.start();
+                    );
+
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(random.nextInt(10000) + 1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                        executor.shutdownNow();
                     }
                 }
             }
         });
 
         factoryThread.start();
-        for (var elevator: elevators) {
+        for (var elevator : elevators) {
             Thread thread = new Thread(elevator);
             thread.start();
         }

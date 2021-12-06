@@ -97,9 +97,10 @@ public class Passenger {
             public void run() {
                 setX(elevator.getX());
                 setY(elevator.getY());
-                strategy.MoveOut(0 - WorldInformation.getInstance().getPassengerWidth());
+                strategy.MoveOut(WorldInformation.getInstance().getPassengerWidth() +
+                        WorldInformation.getInstance().getWorldWidth());
                 state = PassengerState.Left;
-                building.getLeavingList().remove(this);
+                building.getLeavingList().remove(Passenger.this);
                 System.out.println("Passenger left");
             }
         });

@@ -5,8 +5,10 @@ import Models.Passenger;
 import Models.PassengerState;
 import Models.WorldInformation;
 
+import java.util.Random;
+
 public class PassengerStrategy {
-    private Passenger passenger;
+    private final Passenger passenger;
 
     public PassengerStrategy(Passenger passenger) {
         this.passenger = passenger;
@@ -14,7 +16,8 @@ public class PassengerStrategy {
 
     public void Move(double dest){
         System.out.println("Passenger started going");
-        double step = 0.0000005;
+        final Object mutex = new Object();
+        double step = (Math.random() + 0.1) / 1000000;
         while (Math.abs(passenger.getX() - dest) > step){
                 if(passenger.getX() > dest)
                     passenger.setX(passenger.getX() - step);
@@ -30,7 +33,7 @@ public class PassengerStrategy {
         Building building = WorldInformation.getInstance().getBuilding();
 
         System.out.println("Passenger started going");
-        double step = 0.0000005;
+        double step = (Math.random() + 0.1) / 1000000;
         while (Math.abs(passenger.getX() - dest) > step){
             if(passenger.getX() > dest)
                 passenger.setX(passenger.getX() - step);

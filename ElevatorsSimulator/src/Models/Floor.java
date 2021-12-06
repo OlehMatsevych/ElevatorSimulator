@@ -94,13 +94,12 @@ public class Floor {
                         x.getState() == PassengerState.Spawned).count() - 1;
         double passengerOffset = passengersCount * (wi.getPassengerWidth() + wi.getPassengerMargin());
         pos = leftOffset + passengerOffset;
+
         return pos;
     }
 
     public void ElevatorSourceFloorArrivedIgnoreStrategy(Elevator elevator,
                                                          Passenger passengerToMove) {
-        //1 - забираємо з поверху
-        //2 - додаємо у ліфт
         Building building = WorldInformation.getInstance().getBuilding();
         int floorIndex = WorldInformation.getInstance().getBuilding().getFloors().indexOf(this);
         for (int i = 0; i < passengerList.size(); ++i) {
@@ -115,8 +114,6 @@ public class Floor {
     }
 
     public void ElevatorDestinationFloorArrivedIgnoreStrategy(Elevator elevator) {
-        //1 - забираємо з ліфта
-        //2 - додаємо на поверх
         int floorIndex = WorldInformation.getInstance().getBuilding().getFloors().indexOf(this);
         for (int i = 0; i < elevator.getPassengers().size(); ++i) {
             Passenger passenger = elevator.getPassengers().get(i);
@@ -163,12 +160,14 @@ public class Floor {
     public void RearrangePassengers() {
         List<Passenger> backUp = new ArrayList<>(passengerList);
         passengerList.clear();
+        final Object mutex = new Object();
         Thread rearrangeThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                for (var p : backUp) {
-                    p.getStrategy().Move(getNextPassengerPosition());
-                    passengerList.add(p);
+                for (var p: backUp) {
+                    synchronized (mutex) {
+                        p.getStrategy().Move(getNextPassengerPosition());
+                    }
                 }
             }
         });

@@ -6,10 +6,8 @@ import Logic.PickingStrategy;
 import Models.*;
 import Views.CustomButton;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -17,16 +15,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Main {
-    private static Font defaultFont14 = new Font("Impact",Font.BOLD,14);
-    private static Font defaultFont20 = new Font("Impact",Font.BOLD,20);
+    private static final Font defaultFont14 = new Font("Impact",Font.BOLD,14);
+    private static final Font defaultFont20 = new Font("Impact",Font.BOLD,20);
 
-    private static Color textColor = new Color(249, 211, 66);
-    private static Color textColor2 = new Color(255, 255, 255);
+    private static final Color textColor = new Color(249, 211, 66);
+    private static final Color textColor2 = new Color(255, 255, 255);
 
-    private static Color backgroundColor = new Color(41, 40, 38);
+    private static final Color backgroundColor = new Color(41, 40, 38);
 
     private static void Initialize(int floorsNum, int elevatorsNum, int elevatorStrategy,
-                                   int elevatorMaxWeight){
+                                   int elevatorMaxWeight) throws InterruptedException {
         int xMargin = 200, yMargin = 50, floorHeight = 100, elevatorWidth=50,
                 passengerWidth = 25, passengerMargin = 10;
 
@@ -56,7 +54,7 @@ public class Main {
                 strategy = new PickingStrategy(e, new LinkedBlockingQueue<>());
 
             e.setStrategy(strategy);
-            e.setDoorWidth(elevatorWidth / 2);
+            e.setDoorWidth(1.0 * elevatorWidth / 2);
             elevators.add(e);
         }
 
@@ -132,7 +130,7 @@ public class Main {
         jComboBoxPanel.setBackground(backgroundColor);
         jComboBoxPanel.setMaximumSize(new Dimension(400, 100));
 
-        JComboBox jComboBox = new JComboBox(items);
+        JComboBox<? extends String> jComboBox = new JComboBox<>(items);
         jComboBox.setForeground(textColor2);
         jComboBox.setMinimumSize(new Dimension(30, 30));
         jComboBox.setFont(defaultFont20);
@@ -214,8 +212,12 @@ public class Main {
         goButton.setPreferredSize(new Dimension(200, 50));
         goButton.setFocusPainted(false);
         goButton.addActionListener((e) -> {
-            Initialize((Integer)floorsCount.getValue(), (Integer)elevatorsCount.getValue(),
-                    jComboBox.getSelectedIndex(), (Integer)weightCount.getValue());
+            try {
+                Initialize((Integer)floorsCount.getValue(), (Integer)elevatorsCount.getValue(),
+                        jComboBox.getSelectedIndex(), (Integer)weightCount.getValue());
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
             startFrame.dispose();
         });
         goPanel.add(goButton);

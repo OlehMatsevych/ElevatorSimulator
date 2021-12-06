@@ -56,16 +56,6 @@ public class Floor {
                         x.getState() == PassengerState.Spawned).count() - 1;
         double passengerOffset = passengersCount * (wi.getPassengerWidth() + wi.getPassengerMargin());
         pos = leftOffset + passengerOffset;
-        /*var waitingPassengers = passengerList.stream()
-                .filter(x -> x.getState() == PassengerState.Waiting )
-                .collect(Collectors.toList());
-        if(waitingPassengers.isEmpty()){
-            pos = leftOffset + wi.getPassengerMargin() + wi.getElevatorWidth() + 5;
-        }
-        else {
-            pos = waitingPassengers.get(waitingPassengers.size() - 1).getX()
-                    + wi.getPassengerMargin();
-        }*/
 
         return pos;
     }
@@ -137,11 +127,14 @@ public class Floor {
     public void RearrangePassengers(){
         List<Passenger> backUp = new ArrayList<>(passengerList);
         passengerList.clear();
+        final Object mutex = new Object();
         Thread rearrangeThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 for (var p: backUp) {
-                    p.getStrategy().Move(getNextPassengerPosition());
+                    synchronized (mutex) {
+                        p.getStrategy().Move(getNextPassengerPosition());
+                    }
                     passengerList.add(p);
                 }
             }

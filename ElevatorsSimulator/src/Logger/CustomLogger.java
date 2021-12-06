@@ -14,13 +14,30 @@ public final class CustomLogger {
         CustomFormatter formatter = new CustomFormatter();
         FileHandler handler = null;
         try {
-            handler = new FileHandler("Log.txt");
+            handler = new FileHandler("Log.txt", true);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         handler.setFormatter(formatter);
 
+//        Adding HTML Formatter for INFO and higher
+        HTMLFormatter htmlFormatter = new HTMLFormatter();
+        FileHandler htmlHandler = null;
+        try {
+            htmlHandler = new FileHandler("Log.html", true);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        Setting formatter and level
+        htmlHandler.setFormatter(htmlFormatter);
+        htmlHandler.setLevel(Level.INFO);
+
         logger.addHandler(handler);
+        logger.addHandler(htmlHandler);
     }
 
     public static CustomLogger getInstance() {
@@ -30,11 +47,27 @@ public final class CustomLogger {
         return instance;
     }
 
-    public static void log(String message){
+//    wrapper for logger.info
+    public static void info(String message){
         if (instance == null) {
             instance = new CustomLogger();
         }
         logger.info(message);
     }
 
+//    wrapper for logger.warning
+    public static void warn(String message){
+        if (instance == null) {
+            instance = new CustomLogger();
+        }
+        logger.warning(message);
+    }
+
+//    wrapper for logger.severe
+    public static void error(String message){
+        if (instance == null) {
+            instance = new CustomLogger();
+        }
+        logger.severe(message);
+    }
 }

@@ -1,8 +1,8 @@
 
 import Interfaces.ElevatorStrategy;
 
-import Logic.IgnoreStrategy;
-import Logic.PickingStrategy;
+import Logic.DummStrategy;
+import Logic.KindStrategy;
 import Models.*;
 import Views.CustomButton;
 
@@ -49,9 +49,9 @@ public class Main {
             e.setY(mainWindow.getWorldHeight() - mainWindow.getFloorHeight());
             ElevatorStrategy strategy;
             if(elevatorStrategy == 0)
-                strategy = new IgnoreStrategy(e, new LinkedBlockingQueue<>());
+                strategy = new DummStrategy(e, new LinkedBlockingQueue<>());
             else
-                strategy = new PickingStrategy(e, new LinkedBlockingQueue<>());
+                strategy = new KindStrategy(e, new LinkedBlockingQueue<>());
 
             e.setStrategy(strategy);
             e.setDoorWidth(1.0 * elevatorWidth / 2);

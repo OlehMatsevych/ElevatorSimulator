@@ -1,6 +1,6 @@
 package Models;
 
-import Logic.PassengerStrategy;
+import Logic.PassengerBrain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,7 @@ public class PassengerFactory {
 
     private Passenger createNewPerson() {
         var createdPassenger = createRandomPassenger();
-        createdPassenger.setStrategy(new PassengerStrategy(createdPassenger));
+        createdPassenger.setStrategy(new PassengerBrain(createdPassenger));
         passengerList.add(createdPassenger);
         return  createdPassenger;
     }

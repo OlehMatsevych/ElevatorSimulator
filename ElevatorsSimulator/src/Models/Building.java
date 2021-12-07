@@ -9,7 +9,7 @@ public class Building implements IBuilding {
     private List<Elevator> elevators;
     private List<Floor> floors;
     private BlockingQueue<Passenger> passengersQueue;
-    private CopyOnWriteArrayList<Passenger> leavingList;
+    private final CopyOnWriteArrayList<Passenger> leavingList;
     private final Object updateLocker = new Object();
 
     public Building(List<Elevator> elevators, List<Floor> floors, BlockingQueue<Passenger> passengersQueue) {

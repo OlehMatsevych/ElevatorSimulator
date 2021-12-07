@@ -177,7 +177,7 @@ public class Elevator extends BaseElevator implements Runnable {
     public boolean canEnter(int weight) {
         int passengersWeight = passengers
                 .stream()
-                .mapToInt(x -> x.getWeight())
+                .mapToInt(Passenger::getWeight)
                 .sum();
 
         return passengersWeight + weight <= maximumWeight;

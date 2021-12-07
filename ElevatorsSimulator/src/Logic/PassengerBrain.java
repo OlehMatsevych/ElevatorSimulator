@@ -6,15 +6,14 @@ import Models.Passenger;
 import Models.PassengerState;
 import Models.MainWindow;
 
-public class PassengerStrategy {
+public class PassengerBrain {
     private final Passenger passenger;
 
-    public PassengerStrategy(Passenger passenger) {
+    public PassengerBrain(Passenger passenger) {
         this.passenger = passenger;
     }
 
     public void Move(double dest) {
-
         CustomLogger.info("Passenger " + passenger.getName() + " started going");
         final Object mutex = new Object();
         double step = (Math.random() + 0.1) / 1000000;
@@ -28,7 +27,6 @@ public class PassengerStrategy {
         CustomLogger.warn(passenger.getName() + " is coming!!!");
         passenger.setState(PassengerState.Waiting);
         CustomLogger.info("Passenger " + passenger.getName() + " stopped");
-
     }
 
     public void MoveOut(double dest){

@@ -1,7 +1,7 @@
 package Models;
 
 import Logger.CustomLogger;
-import Logic.PassengerStrategy;
+import Logic.PassengerBrain;
 
 import java.awt.*;
 
@@ -12,7 +12,7 @@ public class Passenger {
     private PassengerState state;
     private double x;
     private double y;
-    private PassengerStrategy strategy;
+    private PassengerBrain strategy;
     private String name;
 
     public String getName() { return name; }
@@ -28,11 +28,11 @@ public class Passenger {
     private Image image;
 
 
-    public PassengerStrategy getStrategy() {
+    public PassengerBrain getStrategy() {
         return strategy;
     }
 
-    public void setStrategy(PassengerStrategy strategy) {
+    public void setStrategy(PassengerBrain strategy) {
         this.strategy = strategy;
     }
 

@@ -6,10 +6,10 @@ import Models.*;
 
 import java.util.concurrent.BlockingQueue;
 
-public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
+public class DummStrategy extends BaseStrategy implements ElevatorStrategy {
     private static final Object isEmptyLocker = new Object();
 
-    public IgnoreStrategy(Elevator elevator, BlockingQueue<Passenger> floorQueue) {
+    public DummStrategy(Elevator elevator, BlockingQueue<Passenger> floorQueue) {
         super(elevator, floorQueue);
     }
 

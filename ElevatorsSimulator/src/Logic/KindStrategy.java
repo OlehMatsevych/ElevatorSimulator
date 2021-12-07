@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 
-public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
+public class KindStrategy extends BaseStrategy implements ElevatorStrategy {
     private static final Object isEmptyLocker = new Object();
 
-    public PickingStrategy(Elevator elevator, BlockingQueue<Passenger> floorQueue) {
+    public KindStrategy(Elevator elevator, BlockingQueue<Passenger> floorQueue) {
         super(elevator, floorQueue);
     }
 

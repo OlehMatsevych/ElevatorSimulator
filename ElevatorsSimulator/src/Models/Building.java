@@ -1,6 +1,7 @@
 package Models;
 
 import Interfaces.IBuilding;
+import Logger.CustomLogger;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -71,6 +72,7 @@ public class Building implements IBuilding {
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
+                            CustomLogger.warn(e.getMessage());
                             e.printStackTrace();
                         }
                     }
@@ -89,6 +91,7 @@ public class Building implements IBuilding {
                     try {
                         Thread.sleep(random.nextInt(10000) + 1000);
                     } catch (InterruptedException e) {
+                        CustomLogger.warn(e.getMessage());
                         e.printStackTrace();
                         executor.shutdownNow();
                     }

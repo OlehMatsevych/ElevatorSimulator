@@ -32,6 +32,7 @@ public class PassengerBrain {
     public void MoveOut(double dest){
         Building building = MainWindow.getInstance().getBuilding();
 
+        CustomLogger.error("Example of an error");
         CustomLogger.info("Passenger " + passenger.getName() + " started going");
         double step = (Math.random() + 0.1) / 1000000;
         while (Math.abs(passenger.getX() - dest) > step){

@@ -1,3 +1,0 @@
-07/12/2021 12:49:28.090 - [Logger.CustomLogger.info] - [INFO] - Elevator 1 waiting
-07/12/2021 12:49:28.263 - [Logger.CustomLogger.info] - [INFO] - Passenger Ден На Чіле started going
-07/12/2021 12:49:29.106 - [Logger.CustomLogger.info] - [INFO] - Elevator 1 waiting

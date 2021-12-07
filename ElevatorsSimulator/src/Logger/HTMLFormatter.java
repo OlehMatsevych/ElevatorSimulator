@@ -72,6 +72,7 @@ public class HTMLFormatter extends Formatter {
                 "        background-color: #f44336;\n" +
                 "        color: #fff;\n" +
                 "      }\n" +
+                " .FINEST {\n background-color: #ddffff;}" +
                 "\n" +
                 "    </style>\n" +
                 "    <title>Log file</title>\n" +

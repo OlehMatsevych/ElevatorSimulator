@@ -14,14 +14,17 @@ public final class CustomLogger {
         CustomFormatter formatter = new CustomFormatter();
 //                Adding HTML Formatter for INFO and higher
         HTMLFormatter htmlFormatter = new HTMLFormatter();
+        ConsoloeFromatter clFormatter = new ConsoloeFromatter();
         FileHandler handler = null;
         FileHandler htmlHandler = null;
         FileHandler errorsAndWarningsHandler = null;
         ConsoleHandler clHandler = new ConsoleHandler();
+        FileHandler errorsHtmlHandler = null;
         try {
-            handler = new FileHandler("log.txt");
-            htmlHandler = new FileHandler("log.html");
-            errorsAndWarningsHandler = new FileHandler("log-errors.txt");
+            handler = new FileHandler("./logs/log.txt");
+            htmlHandler = new FileHandler("./logs/log.html");
+            errorsAndWarningsHandler = new FileHandler("./logs/log-errors.txt");
+            errorsHtmlHandler = new FileHandler("./logs/log-errors.html");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -33,17 +36,21 @@ public final class CustomLogger {
         htmlHandler.setFormatter(htmlFormatter);
         htmlHandler.setLevel(Level.INFO);
 
-        clHandler.setFormatter(formatter);
-        clHandler.setLevel(Level.FINEST);
+        clHandler.setFormatter(clFormatter);
+        clHandler.setLevel(Level.ALL);
 
         errorsAndWarningsHandler.setLevel(Level.WARNING);
         errorsAndWarningsHandler.setFormatter(formatter);
+
+        errorsHtmlHandler.setLevel(Level.WARNING);
+        errorsHtmlHandler.setFormatter(htmlFormatter);
 
 
         logger.addHandler(handler);
         logger.addHandler(htmlHandler);
         logger.addHandler(clHandler);
         logger.addHandler(errorsAndWarningsHandler);
+        logger.addHandler(errorsHtmlHandler);
     }
 
     public static CustomLogger getInstance() {
@@ -75,5 +82,13 @@ public final class CustomLogger {
             instance = new CustomLogger();
         }
         logger.severe(message);
+    }
+
+    public static void finest(String message) {
+        if(instance == null) {
+            instance = new CustomLogger();
+        }
+
+        logger.finest(message);
     }
 }

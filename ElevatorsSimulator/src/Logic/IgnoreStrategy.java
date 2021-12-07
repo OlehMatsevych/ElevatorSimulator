@@ -29,6 +29,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                             try {
                                 Thread.sleep(1000);
                             } catch (InterruptedException e) {
+                                CustomLogger.warn(e.getMessage());
                                 e.printStackTrace();
                             }
                             synchronized (isEmptyLocker) {
@@ -61,6 +62,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                         elevator.Stop(firstCalledFloor);
 
                         if(!elevator.getPassengers().contains(firstPassenger))
+                            CustomLogger.warn("Elevator is empty");
                             continue;
                     }
 
@@ -80,6 +82,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                     elevator.Stop(destinationFloor);
                     elevator.getPassengers().remove(firstPassenger);
                 } catch (NullPointerException ignored) {
+                    CustomLogger.error(ignored.getMessage());
                 }
             }
     }

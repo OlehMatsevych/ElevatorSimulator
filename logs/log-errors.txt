@@ -1,0 +1,6 @@
+07/12/2021 11:22:46.955 - [Logger.CustomLogger.warn] - [WARNING] - Ден На Чіле is coming!!!
+07/12/2021 11:22:47.341 - [Logger.CustomLogger.warn] - [WARNING] - Ден На Чіле is coming!!!
+07/12/2021 11:22:51.625 - [Logger.CustomLogger.warn] - [WARNING] - Надя Тусовочка is coming!!!
+07/12/2021 11:22:53.287 - [Logger.CustomLogger.warn] - [WARNING] - Ден На Чіле is coming!!!
+07/12/2021 11:22:54.222 - [Logger.CustomLogger.warn] - [WARNING] - Надя Тусовочка is coming!!!
+07/12/2021 11:22:56.520 - [Logger.CustomLogger.warn] - [WARNING] - Ден На Чіле is coming!!!

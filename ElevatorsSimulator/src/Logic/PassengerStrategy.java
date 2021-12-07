@@ -3,9 +3,7 @@ package Logic;
 import Models.Building;
 import Models.Passenger;
 import Models.PassengerState;
-import Models.WorldInformation;
-
-import java.util.Random;
+import Models.MainWindow;
 
 public class PassengerStrategy {
     private final Passenger passenger;
@@ -30,7 +28,7 @@ public class PassengerStrategy {
     }
 
     public void MoveOut(double dest){
-        Building building = WorldInformation.getInstance().getBuilding();
+        Building building = MainWindow.getInstance().getBuilding();
 
         System.out.println("Passenger started going");
         double step = (Math.random() + 0.1) / 1000000;

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import java.util.stream.Collectors;
-
 public class Floor {
     private CopyOnWriteArrayList<Passenger> passengerList;
     private double elevatorPoints;
@@ -84,7 +82,7 @@ public class Floor {
 
     public double getNextPassengerPosition() {
         double pos;
-        WorldInformation wi = WorldInformation.getInstance();
+        MainWindow wi = MainWindow.getInstance();
         double leftOffset = wi.get_xMargin() + wi.getElevatorWidth();
         leftOffset *= wi.getElevatorsNum();
         leftOffset += wi.getElevatorWidth() + wi.getPassengerMargin();
@@ -100,8 +98,8 @@ public class Floor {
 
     public void ElevatorSourceFloorArrivedIgnoreStrategy(Elevator elevator,
                                                          Passenger passengerToMove) {
-        Building building = WorldInformation.getInstance().getBuilding();
-        int floorIndex = WorldInformation.getInstance().getBuilding().getFloors().indexOf(this);
+        Building building = MainWindow.getInstance().getBuilding();
+        int floorIndex = MainWindow.getInstance().getBuilding().getFloors().indexOf(this);
         for (int i = 0; i < passengerList.size(); ++i) {
             Passenger passenger = passengerList.get(i);
             if (passengerToMove.getDestinationFloor() == passenger.getDestinationFloor()) {
@@ -114,7 +112,7 @@ public class Floor {
     }
 
     public void ElevatorDestinationFloorArrivedIgnoreStrategy(Elevator elevator) {
-        int floorIndex = WorldInformation.getInstance().getBuilding().getFloors().indexOf(this);
+        int floorIndex = MainWindow.getInstance().getBuilding().getFloors().indexOf(this);
         for (int i = 0; i < elevator.getPassengers().size(); ++i) {
             Passenger passenger = elevator.getPassengers().get(i);
             passenger.setState(PassengerState.Leaving);
@@ -125,7 +123,7 @@ public class Floor {
     }
 
     public void ElevatorArrived(Elevator elevator) {
-        Building building = WorldInformation.getInstance().getBuilding();
+        Building building = MainWindow.getInstance().getBuilding();
         int floorIndex = building.getFloors().indexOf(this);
         for (int i = 0; i < elevator.getPassengers().size(); ++i) {
             Passenger p = elevator.getPassengers().get(i);

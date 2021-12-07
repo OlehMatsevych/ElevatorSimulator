@@ -7,8 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class WorldInformation extends JPanel {
-    private static WorldInformation instance;
+public class MainWindow extends JPanel {
+    private static MainWindow instance;
     private int floorsNum;
     private int elevatorsNum;
     private int xMargin;
@@ -100,12 +100,12 @@ public class WorldInformation extends JPanel {
         this.floorHeight = floorHeight;
     }
 
-    private WorldInformation() { }
+    private MainWindow() { }
 
     public void Initialize(int floorsNum, int elevatorsNum, int xMargin,
                            int yMargin, double floorHeight, double elevatorWidth,
                            int passengerWidth, int passengerMargin){
-        WorldInformation thisInstance = getInstance();
+        MainWindow thisInstance = getInstance();
         thisInstance.elevatorsNum = elevatorsNum;
         thisInstance.floorHeight = floorHeight;
         thisInstance.floorsNum = floorsNum;
@@ -138,9 +138,9 @@ public class WorldInformation extends JPanel {
         setDoubleBuffered(true);
     }
 
-    public static WorldInformation getInstance() {
+    public static MainWindow getInstance() {
         if(instance == null)
-            instance = new WorldInformation();
+            instance = new MainWindow();
         return instance;
     }
 

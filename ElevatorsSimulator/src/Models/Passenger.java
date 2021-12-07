@@ -85,20 +85,20 @@ public class Passenger {
         this.sourceFloor = sourceFloor;
         this.destinationFloor = destinationFloor;
         this.state = state;
-        this.image = WorldInformation.getInstance()
+        this.image = MainWindow.getInstance()
                 .getPassengerImages().get((int) (Math.random() * 10));
     }
 
     public void Leave(Elevator elevator){
-        Building building = WorldInformation.getInstance().getBuilding();
+        Building building = MainWindow.getInstance().getBuilding();
         y = building.getFloors().get(destinationFloor).getY();
         Thread leavingThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 setX(elevator.getX());
                 setY(elevator.getY());
-                strategy.MoveOut(WorldInformation.getInstance().getPassengerWidth() +
-                        WorldInformation.getInstance().getWorldWidth());
+                strategy.MoveOut(MainWindow.getInstance().getPassengerWidth() +
+                        MainWindow.getInstance().getWorldWidth());
                 state = PassengerState.Left;
                 building.getLeavingList().remove(Passenger.this);
                 System.out.println("Passenger left");

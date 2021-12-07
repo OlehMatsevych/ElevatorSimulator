@@ -3,7 +3,6 @@ package Logic;
 import Interfaces.ElevatorStrategy;
 import Models.*;
 
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 
 public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
@@ -17,7 +16,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
     public void Move() {
         //may be changed later
         System.out.println("Elevator started");
-        WorldInformation wi = WorldInformation.getInstance();
+        MainWindow wi = MainWindow.getInstance();
         boolean isCalled = true;
         double step = 0.0000005;
         while(true) {

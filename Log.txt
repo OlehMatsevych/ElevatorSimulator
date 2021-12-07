@@ -1,3 +1,0 @@
-03/01/2021 01:50:32.463 - [Logger.CustomLogger.log] - [INFO] - temp
-03/01/2021 01:50:32.466 - [Logger.CustomLogger.log] - [INFO] - done1
-03/01/2021 01:50:32.466 - [Logger.CustomLogger.log] - [INFO] - done1

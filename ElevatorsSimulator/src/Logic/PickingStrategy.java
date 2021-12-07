@@ -4,13 +4,8 @@ import Interfaces.ElevatorStrategy;
 import Models.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
 import java.util.concurrent.BlockingQueue;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
     private static final Object isEmptyLocker = new Object();
@@ -22,7 +17,7 @@ public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
     @Override
     public void Move() {
         //may be changed later
-        WorldInformation wi = WorldInformation.getInstance();
+        MainWindow wi = MainWindow.getInstance();
         boolean isCalled = true;
         double step = 0.0000005;
         var floors = new ArrayList<>(wi.getBuilding().getFloors());

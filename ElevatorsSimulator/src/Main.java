@@ -28,25 +28,25 @@ public class Main {
         int xMargin = 200, yMargin = 50, floorHeight = 100, elevatorWidth=50,
                 passengerWidth = 25, passengerMargin = 10;
 
-        WorldInformation worldInformation = WorldInformation.getInstance();
-        worldInformation.Initialize(floorsNum, elevatorsNum, xMargin,
+        MainWindow mainWindow = MainWindow.getInstance();
+        mainWindow.Initialize(floorsNum, elevatorsNum, xMargin,
                 yMargin, floorHeight, elevatorWidth, passengerWidth, passengerMargin);
 
         List<Floor> floors = new CopyOnWriteArrayList<>();
-        for (int i = 0; i < worldInformation.getFloorsNum(); ++i){
+        for (int i = 0; i < mainWindow.getFloorsNum(); ++i){
             Floor f = new Floor();
-            f.setY(worldInformation.getWorldHeight() - (i + 1) * worldInformation.getFloorHeight()
-                    - i * worldInformation.get_yMargin());
+            f.setY(mainWindow.getWorldHeight() - (i + 1) * mainWindow.getFloorHeight()
+                    - i * mainWindow.get_yMargin());
             floors.add(f);
         }
 
         List<Elevator> elevators = new ArrayList<>();
         BlockingQueue<Passenger> passengersQueue = new LinkedBlockingQueue<>();
         String strategyStr = "";
-        for (int i = 0; i < worldInformation.getElevatorsNum(); ++i){
+        for (int i = 0; i < mainWindow.getElevatorsNum(); ++i){
             Elevator e = new Elevator(elevatorMaxWeight, floors.get(0));
-            e.setX((worldInformation.get_xMargin() + worldInformation.getElevatorWidth()) * (i + 1));
-            e.setY(worldInformation.getWorldHeight() - worldInformation.getFloorHeight());
+            e.setX((mainWindow.get_xMargin() + mainWindow.getElevatorWidth()) * (i + 1));
+            e.setY(mainWindow.getWorldHeight() - mainWindow.getFloorHeight());
             ElevatorStrategy strategy;
             if(elevatorStrategy == 0)
                 strategy = new IgnoreStrategy(e, new LinkedBlockingQueue<>());
@@ -59,22 +59,22 @@ public class Main {
         }
 
         Building building = new Building(elevators, floors, passengersQueue);
-        worldInformation.setBuilding(building);
+        mainWindow.setBuilding(building);
 
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         JFrame mainFrame = new JFrame("Elevator simulator");
 
-        worldInformation.setBounds(0, 0 , (int)worldInformation.getWorldWidth(),
-                (int) worldInformation.getWorldHeight());
+        mainWindow.setBounds(0, 0 , (int) mainWindow.getWorldWidth(),
+                (int) mainWindow.getWorldHeight());
         JPanel mainPanel = new JPanel(null);
-        mainPanel.setPreferredSize(new Dimension((int)worldInformation.getWorldWidth(),
-                (int) worldInformation.getWorldHeight()));
-        mainPanel.add(worldInformation);
+        mainPanel.setPreferredSize(new Dimension((int) mainWindow.getWorldWidth(),
+                (int) mainWindow.getWorldHeight()));
+        mainPanel.add(mainWindow);
 
         mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         mainFrame.setAlwaysOnTop(true);
         mainFrame.setResizable(false);
-        mainFrame.setSize((int)worldInformation.getWorldWidth(),(int) worldInformation.getWorldHeight() + 40);
+        mainFrame.setSize((int) mainWindow.getWorldWidth(),(int) mainWindow.getWorldHeight() + 40);
         mainFrame.add(mainPanel);
         mainFrame.setVisible(true);
         mainFrame.setLocation(dim.width/2-mainFrame.getSize().width/2,
@@ -90,7 +90,7 @@ public class Main {
             }
         });
         invalidatingThread.start();
-        WorldInformation.getInstance().getBuilding().runAllThreads();
+        MainWindow.getInstance().getBuilding().runAllThreads();
     }
 
     public static void main(String[] args) {

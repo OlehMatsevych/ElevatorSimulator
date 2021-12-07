@@ -1,12 +1,9 @@
 package Models;
 
 import Interfaces.IBuilding;
-import Interfaces.IElevator;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.stream.Collectors;
 
 public class Building implements IBuilding {
     private List<Elevator> elevators;
@@ -80,7 +77,7 @@ public class Building implements IBuilding {
                     Passenger passenger = factory.getPassenger();
                     Floor passengersFloor = floors.get(passenger.getSourceFloor());
                     passenger.setY(passengersFloor.getY());
-                    passenger.setX(WorldInformation.getInstance().getWorldWidth());
+                    passenger.setX(MainWindow.getInstance().getWorldWidth());
                     passengersFloor.getPassengerList().add(passenger);
                     Future<?> f = executor.submit(() -> {
                                 passenger.getStrategy().Move(passengersFloor.getNextPassengerPosition());

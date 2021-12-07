@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+      *,
+      body,
+      html {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      .WARNING {
+        background-color: #ffeb3b;
+      }
+
+      .INFO {
+        background-color: #2196f3;
+        color: #fff;
+      }
+
+      .SEVERE {
+        background-color: #f44336;
+        color: #fff;
+      }
+ .FINEST {
+ background-color: #ddffff;}
+    </style>
+    <title>Log file</title>
+  </head>
+  <body>
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th>Loglevel</th>
+          <th>Time</th>
+          <th>Source</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:02</td><td>Logger.CustomLogger.info</td><td>Elevator 1 waiting</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:03</td><td>Logger.CustomLogger.info</td><td>Elevator 1 waiting</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:04</td><td>Logger.CustomLogger.info</td><td>Elevator 1 waiting</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:04</td><td>Logger.CustomLogger.info</td><td>Passenger Арман Брадяга started going</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:05</td><td>Logger.CustomLogger.info</td><td>Elevator 1 waiting</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:06</td><td>Logger.CustomLogger.info</td><td>Elevator 1 waiting</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:06</td><td>Logger.CustomLogger.info</td><td>Passenger Арман Брадяга stopped</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:07</td><td>Logger.CustomLogger.info</td><td>Elevator 1 moving to 0 floor</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:07</td><td>Logger.CustomLogger.info</td><td>Elevator 1 stopped on 0 floor</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:07</td><td>Logger.CustomLogger.info</td><td>Passenger: Арман Брадяга goes to elevator 1</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:07</td><td>Logger.CustomLogger.info</td><td>Passenger Арман Брадяга started going</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:07</td><td>Logger.CustomLogger.info</td><td>Passenger Арман Брадяга stopped</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:07</td><td>Logger.CustomLogger.info</td><td>Passenger: Арман Брадяга entered to elevator 1</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:07</td><td>Logger.CustomLogger.info</td><td>Elevator 1 moving to 1 floor</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:07</td><td>Logger.CustomLogger.info</td><td>Passenger Олег Сімпатяга stopped</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:08</td><td>Logger.CustomLogger.info</td><td>Elevator 1 stopped on 1 floor</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:08</td><td>Logger.CustomLogger.info</td><td>Passenger Арман Брадяга started going</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:08</td><td>Logger.CustomLogger.info</td><td>Passenger: Олег Сімпатяга goes to elevator 1</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:08</td><td>Logger.CustomLogger.info</td><td>Passenger Олег Сімпатяга started going</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:09</td><td>Logger.CustomLogger.info</td><td>Passenger Олег Сімпатяга stopped</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:09</td><td>Logger.CustomLogger.info</td><td>Passenger: Олег Сімпатяга entered to elevator 1</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:09</td><td>Logger.CustomLogger.info</td><td>Elevator 1 moving to 0 floor</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:11</td><td>Logger.CustomLogger.info</td><td>Elevator 1 stopped on 0 floor</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:11</td><td>Logger.CustomLogger.info</td><td>Passenger Олег Сімпатяга started going</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:11</td><td>Logger.CustomLogger.info</td><td>Elevator 1 waiting</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:12</td><td>Logger.CustomLogger.info</td><td>Elevator 1 moving to 1 floor</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:12</td><td>Logger.CustomLogger.info</td><td>Passenger Надя Тусовочка started going</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:13</td><td>Logger.CustomLogger.info</td><td>Passenger Арман Брадяга left</td></tr><tr><td class= "INFO">INFO</td><td>07/12/2021 11:15:13</td><td>Logger.CustomLogger.info</td><td>Passenger Олег Сімпатяга left</td></tr></tbody>
+    </table>
+  </body>
+</html>

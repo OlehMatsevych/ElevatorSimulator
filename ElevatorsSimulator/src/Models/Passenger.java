@@ -1,5 +1,6 @@
 package Models;
 
+import Logger.CustomLogger;
 import Logic.PassengerStrategy;
 
 import java.awt.*;
@@ -107,7 +108,7 @@ public class Passenger {
                         MainWindow.getInstance().getWorldWidth());
                 state = PassengerState.Left;
                 building.getLeavingList().remove(Passenger.this);
-                System.out.println("Passenger " + name + " left");
+                CustomLogger.info("Passenger " + name + " left");
             }
         });
         leavingThread.start();
@@ -119,9 +120,9 @@ public class Passenger {
     }
 
     public void Enter(Elevator elevator){
-        System.out.println("Passenger: " + name +" goes to elevator " + elevator.getID());
+        CustomLogger.info("Passenger: " + name +" goes to elevator " + elevator.getID());
         strategy.Move(elevator.getX());
         state = PassengerState.Moving;
-        System.out.println("Passenger: " + name + " entered to elevator " + elevator.getID());
+        CustomLogger.info("Passenger: " + name + " entered to elevator " + elevator.getID());
     }
 }

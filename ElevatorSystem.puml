@@ -1,0 +1,105 @@
+@startuml ElevatorSystem
+
+
+class Building
+{
+    -floors: Floor[]
+    -elevators: Elevator[]
+    -passengersQueue: Passenger[]
+    +runAllThreads(): void
+}
+
+class Elevator
+{
+    -maxWeight: double
+    -moveStrategy: ElevatorStrategy
+    -currentPassengers: Passenger[]
+    -currentFloor: Floor
+    +run(): void
+    +stop(Floor floor): void
+    +openDoors(): void
+    +closeDoors(): void
+    +canEnter(int): boolean
+}
+
+interface ElevatorStrategy
+{
+    +{abstract} move(): void
+    -{abstract} getFloorQueue(): Passenger[]
+}
+
+abstract BaseStrategy 
+{
+    #elevator: Elevator 
+    #floorQueue: Passenger[] 
+    -getFloorQueue(): Passenger[]
+}
+
+class IgnoreStrategy  
+{
+    -isEmptyLocker: Object
+    +move(): void
+}
+
+class PickingStrategy  
+{
+    -isEmptyLocker: Object
+    +move(): void
+}
+
+
+class Floor 
+{
+    -passengerList: Passenger[]
+    -floorHeight: double
+    +ElevatorArrived(Elevator elevator): void
+    +getNextPassengerPosition(): double
+}
+
+enum PassengerState
+{
+    Spawned
+    Waiting
+    Moving
+    Leaving
+    Left
+    Entering
+}
+
+class Passenger
+{
+    -weight: double
+    -state: PassengerState
+    -image: Image
+    -sourceFloor: int
+    -strategy: PassengerStrategy
+    -x: double
+    -y: double
+    +leaveElevator(Elevator): void
+    +enterElevator(Elevator): void
+}
+
+class PassengerFactory
+{
+    -maxWeight: int
+    -minWeight: int
+    -maxCountOfFloors: int
+    -passengerList: Passengers[]
+    -createNewPassanger(): Passanger
+    -updatePassanger(): Passanger
+    -createRandomPassanger(): Passanger
+    +getPassangers(): Passanger[]
+}
+
+Passenger <.. PassengerFactory
+PassengerState *-- Passenger
+Passenger <-- Floor
+Passenger <-- Elevator
+Floor o-- Building
+Elevator o-- Building
+ElevatorStrategy o-- Elevator
+ElevatorStrategy <|.. BaseStrategy
+BaseStrategy <|-- IgnoreStrategy
+BaseStrategy <|-- PickingStrategy
+
+@enduml

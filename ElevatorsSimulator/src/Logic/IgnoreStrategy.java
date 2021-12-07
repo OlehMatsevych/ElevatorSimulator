@@ -16,7 +16,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
     @Override
     public void Move() {
         //may be changed later
-        System.out.println("Elevator " + elevator.getID() + " started");
+        CustomLogger.info("Elevator " + elevator.getID() + " started");
         MainWindow wi = MainWindow.getInstance();
         boolean isCalled = true;
         double step = 0.0000005;
@@ -35,6 +35,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                             synchronized (isEmptyLocker) {
                                 if (!floorQueue.isEmpty()) {
                                     firstPassenger = floorQueue.poll();
+                                    CustomLogger.info(firstPassenger.getName() + " polled");
                                     isCalled = true;
                                     break;
                                 }

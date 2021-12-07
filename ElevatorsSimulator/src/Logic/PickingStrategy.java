@@ -1,6 +1,7 @@
 package Logic;
 
 import Interfaces.ElevatorStrategy;
+import Logger.CustomLogger;
 import Models.*;
 
 import java.util.ArrayList;
@@ -27,7 +28,9 @@ public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
                 while (true) {
                     try {
                         Thread.sleep(1000);
-                    } catch (InterruptedException e) {
+                    } catch (InterruptedException e)
+                     {
+                         CustomLogger.warn(e.getMessage());
                         e.printStackTrace();
                     }
                     synchronized (isEmptyLocker) {

@@ -10,6 +10,8 @@ import java.util.Queue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Elevator extends BaseElevator implements Runnable {
+    static int ID;
+    private int id;
     private double x, y;
     private int maximumWeight;
     private Floor actualFloor;
@@ -25,16 +27,20 @@ public class Elevator extends BaseElevator implements Runnable {
     }
 
     public Elevator(int maxWeight, Floor initialFloor) {
+        ID++;
+        id = ID;
         this.maximumWeight = maxWeight;
         actualFloor = initialFloor;
         passengers = new CopyOnWriteArrayList<>();
     }
 
-    public Elevator(double x, double y) { this.x = x; this.y = y; }
+    public Elevator(double x, double y) { ID++; id = ID; this.x = x; this.y = y; }
 
     public Elevator(double x, double y, int maxWeight, Floor currentFloor,
                     ElevatorStrategy strategy, CopyOnWriteArrayList<Passenger> passengers,
                     ElevatorState state, double doorWidth, double constDoorWidth) {
+        id = ID;
+        ID++;
         this.x = x;
         this.y = y;
         this.maximumWeight = maxWeight;
@@ -44,6 +50,10 @@ public class Elevator extends BaseElevator implements Runnable {
         this.state = state;
         this.exitDoorWidth = doorWidth;
         this.constDoorWidth = constDoorWidth;
+    }
+
+    public int getID() {
+        return id;
     }
 
     public int getMaxWeight() {

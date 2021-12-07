@@ -13,7 +13,7 @@ public class PassengerStrategy {
     }
 
     public void Move(double dest){
-        System.out.println("Passenger started going");
+        System.out.println("Passenger " + passenger.getName() + " started going");
         final Object mutex = new Object();
         double step = (Math.random() + 0.1) / 1000000;
         while (Math.abs(passenger.getX() - dest) > step){
@@ -24,13 +24,13 @@ public class PassengerStrategy {
             }
 
         passenger.setState(PassengerState.Waiting);
-        System.out.println("Passenger stopped");
+        System.out.println("Passenger " + passenger.getName() + " stopped");
     }
 
     public void MoveOut(double dest){
         Building building = MainWindow.getInstance().getBuilding();
 
-        System.out.println("Passenger started going");
+        System.out.println("Passenger " + passenger.getName() + " started going");
         double step = (Math.random() + 0.1) / 1000000;
         while (Math.abs(passenger.getX() - dest) > step){
             if(passenger.getX() > dest)

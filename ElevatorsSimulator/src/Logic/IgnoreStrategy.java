@@ -15,7 +15,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
     @Override
     public void Move() {
         //may be changed later
-        System.out.println("Elevator started");
+        System.out.println("Elevator " + elevator.getID() + " started");
         MainWindow wi = MainWindow.getInstance();
         boolean isCalled = true;
         double step = 0.0000005;
@@ -24,7 +24,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                     Passenger firstPassenger;
                     if(elevator.getPassengers().isEmpty()) {
                         while (true) {
-                            System.out.println("Elevator waiting");
+                            System.out.println("Elevator " + elevator.getID() + " waiting");
                             try {
                                 Thread.sleep(1000);
                             } catch (InterruptedException e) {
@@ -46,7 +46,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
 
                     if(isCalled) {
                         Floor firstCalledFloor = wi.getBuilding().getFloors().get(firstPassenger.getSourceFloor());
-                        System.out.println("Elevator moving to " + firstPassenger.getSourceFloor() + " floor");
+                        System.out.println("Elevator " + elevator.getID() + " moving to " + firstPassenger.getSourceFloor() + " floor");
                         while (Math.abs(elevator.getY() - firstCalledFloor.getY()) > step) {
                             if (elevator.getY() < firstCalledFloor.getY()) {
                                 elevator.setY(elevator.getY() + step);
@@ -55,7 +55,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                             }
                         }
 
-                        System.out.println("Elevator stopped on " + firstPassenger.getSourceFloor() + " floor");
+                        System.out.println("Elevator " + elevator.getID() + " stopped on " + firstPassenger.getSourceFloor() + " floor");
                         elevator.setCurrentFloor(firstCalledFloor);
                         elevator.Stop(firstCalledFloor);
 
@@ -65,7 +65,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
 
                     //deliver
                     Floor destinationFloor = wi.getBuilding().getFloors().get(firstPassenger.getDestinationFloor());
-                    System.out.println("Elevator moving to " + firstPassenger.getDestinationFloor() + " floor");
+                    System.out.println("Elevator " + elevator.getID() + " moving to " + firstPassenger.getDestinationFloor() + " floor");
                     while (Math.abs(elevator.getY() - destinationFloor.getY()) > step) {
                         if (elevator.getY() < destinationFloor.getY()) {
                             elevator.setY(elevator.getY() + step);
@@ -74,7 +74,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                         }
                     }
 
-                    System.out.println("Elevator stopped on " + firstPassenger.getDestinationFloor() + " floor");
+                    System.out.println("Elevator " + elevator.getID() + " stopped on " + firstPassenger.getDestinationFloor() + " floor");
                     elevator.setCurrentFloor(destinationFloor);
                     elevator.Stop(destinationFloor);
                     elevator.getPassengers().remove(firstPassenger);

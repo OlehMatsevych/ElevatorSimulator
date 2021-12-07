@@ -19,6 +19,11 @@ public class MainWindow extends JPanel {
     private double passengerWidth;
     private double passengerMargin;
     private ArrayList<Image> passengerImages;
+    private ArrayList<String> passengerNames;
+
+    public ArrayList<String> getPassengerNames() {
+        return passengerNames;
+    }
 
     public ArrayList<Image> getPassengerImages() {
         return passengerImages;
@@ -115,19 +120,32 @@ public class MainWindow extends JPanel {
         thisInstance.passengerWidth = passengerWidth;
 
         passengerImages = new ArrayList<Image>();
+        passengerNames = new ArrayList<String>();
+
         ArrayList<Image> images = new ArrayList<Image>();
 
         try {
             images.add(ImageIO.read(new File("Images/passenger1.png")));
+            passengerNames.add("Олег Бандіт");
             images.add(ImageIO.read(new File("Images/passenger2.png")));
+            passengerNames.add("Арман Брадяга");
             images.add(ImageIO.read(new File("Images/passenger3.png")));
+            passengerNames.add("Олег Сімпатяга");
             images.add(ImageIO.read(new File("Images/passenger4.png")));
+            passengerNames.add("Віталік Термінатор");
             images.add(ImageIO.read(new File("Images/passenger5.png")));
+            passengerNames.add("Надя Ушатайка");
             images.add(ImageIO.read(new File("Images/passenger6.png")));
+            passengerNames.add("Ден На Чіле");
             images.add(ImageIO.read(new File("Images/passenger7.png")));
+            passengerNames.add("Ден На Чіле");
             images.add(ImageIO.read(new File("Images/passenger8.png")));
+            passengerNames.add("Ден На Чіле");
             images.add(ImageIO.read(new File("Images/passenger9.png")));
+            passengerNames.add("Ден На Чіле");
             images.add(ImageIO.read(new File("Images/passenger10.png")));
+            passengerNames.add("Ден На Чіле");
+
         }catch (IOException e){
             e.printStackTrace();
         }

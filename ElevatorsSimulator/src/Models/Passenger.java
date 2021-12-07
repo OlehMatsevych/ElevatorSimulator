@@ -12,6 +12,9 @@ public class Passenger {
     private double x;
     private double y;
     private PassengerStrategy strategy;
+    private String name;
+
+    public String getName() { return name; }
 
     public Image getImage() {
         return image;
@@ -85,8 +88,11 @@ public class Passenger {
         this.sourceFloor = sourceFloor;
         this.destinationFloor = destinationFloor;
         this.state = state;
+        int randomNumber = (int) (Math.random() * 10);
         this.image = MainWindow.getInstance()
-                .getPassengerImages().get((int) (Math.random() * 10));
+                .getPassengerImages().get(randomNumber);
+        this.name = MainWindow.getInstance()
+                .getPassengerNames().get(randomNumber);
     }
 
     public void Leave(Elevator elevator){
@@ -101,7 +107,7 @@ public class Passenger {
                         MainWindow.getInstance().getWorldWidth());
                 state = PassengerState.Left;
                 building.getLeavingList().remove(Passenger.this);
-                System.out.println("Passenger left");
+                System.out.println("Passenger " + name + " left");
             }
         });
         leavingThread.start();
@@ -113,9 +119,9 @@ public class Passenger {
     }
 
     public void Enter(Elevator elevator){
-        System.out.println("Passenger" + hashCode() +" goes to elevator " + elevator.hashCode());
+        System.out.println("Passenger: " + name +" goes to elevator " + elevator.getID());
         strategy.Move(elevator.getX());
         state = PassengerState.Moving;
-        System.out.println("Passenger" + hashCode() + "entered to elevator " + elevator.hashCode());
+        System.out.println("Passenger: " + name + " entered to elevator " + elevator.getID());
     }
 }

@@ -12,32 +12,38 @@ public final class CustomLogger {
         logger.setUseParentHandlers(false);
 
         CustomFormatter formatter = new CustomFormatter();
-        FileHandler handler = null;
-        try {
-            handler = new FileHandler("Log.txt", true);
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        handler.setFormatter(formatter);
-
-//        Adding HTML Formatter for INFO and higher
+//                Adding HTML Formatter for INFO and higher
         HTMLFormatter htmlFormatter = new HTMLFormatter();
+        FileHandler handler = null;
         FileHandler htmlHandler = null;
+        FileHandler errorsAndWarningsHandler = null;
+        ConsoleHandler clHandler = new ConsoleHandler();
         try {
-            htmlHandler = new FileHandler("Log.html", true);
+            handler = new FileHandler("log.txt");
+            htmlHandler = new FileHandler("log.html");
+            errorsAndWarningsHandler = new FileHandler("log-errors.txt");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 //        Setting formatter and level
+        handler.setFormatter(formatter);
+
         htmlHandler.setFormatter(htmlFormatter);
         htmlHandler.setLevel(Level.INFO);
 
+        clHandler.setFormatter(formatter);
+        clHandler.setLevel(Level.FINEST);
+
+        errorsAndWarningsHandler.setLevel(Level.WARNING);
+        errorsAndWarningsHandler.setFormatter(formatter);
+
+
         logger.addHandler(handler);
         logger.addHandler(htmlHandler);
+        logger.addHandler(clHandler);
+        logger.addHandler(errorsAndWarningsHandler);
     }
 
     public static CustomLogger getInstance() {

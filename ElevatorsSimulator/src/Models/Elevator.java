@@ -1,8 +1,6 @@
 package Models;
 
-import Interfaces.BaseElevatorStrategy;
 import Interfaces.ElevatorStrategy;
-import Interfaces.IElevator;
 
 import java.util.ArrayList;
 import java.util.List;

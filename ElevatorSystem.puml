@@ -1,6 +1,10 @@
 @startuml ElevatorSystem
 
 
+interface IBuilding
+{
+    +{abstract} updateQueue(Passenger passenger): void
+}
 class Building
 {
     -floors: Floor[]
@@ -35,13 +39,13 @@ abstract BaseStrategy
     -getFloorQueue(): Passenger[]
 }
 
-class IgnoreStrategy  
+class DummStrategy  
 {
     -isEmptyLocker: Object
     +move(): void
 }
 
-class PickingStrategy  
+class KindStrategy  
 {
     -isEmptyLocker: Object
     +move(): void
@@ -72,7 +76,7 @@ class Passenger
     -state: PassengerState
     -image: Image
     -sourceFloor: int
-    -strategy: PassengerStrategy
+    -strategy: PassengerBrain
     -x: double
     -y: double
     +leaveElevator(Elevator): void
@@ -90,7 +94,7 @@ class PassengerFactory
     -createRandomPassanger(): Passanger
     +getPassangers(): Passanger[]
 }
-
+IBuilding <|-- Building
 Passenger <.. PassengerFactory
 PassengerState *-- Passenger
 Passenger <-- Floor
@@ -99,7 +103,7 @@ Floor o-- Building
 Elevator o-- Building
 ElevatorStrategy o-- Elevator
 ElevatorStrategy <|.. BaseStrategy
-BaseStrategy <|-- IgnoreStrategy
-BaseStrategy <|-- PickingStrategy
+BaseStrategy <|-- DummStrategy
+BaseStrategy <|-- KindStrategy
 
 @enduml

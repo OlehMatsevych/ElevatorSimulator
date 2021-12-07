@@ -119,8 +119,8 @@ public class Main {
 
         mainPanel.add(title);
         String[] items = {
-                "Ignore Strategy",
-                "Picking Strategy"
+                "Dumm Strategy",
+                "Kind Strategy"
         };
 
         // spacing

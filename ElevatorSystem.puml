@@ -26,7 +26,7 @@ class Elevator
     +canEnter(int): boolean
 }
 
-interface ElevatorStrategy
+interface IElevatorStrategy
 {
     +{abstract} move(): void
     -{abstract} getFloorQueue(): Passenger[]
@@ -94,6 +94,7 @@ class PassengerFactory
     -createRandomPassanger(): Passanger
     +getPassangers(): Passanger[]
 }
+
 IBuilding <|-- Building
 Passenger <.. PassengerFactory
 PassengerState *-- Passenger
@@ -101,8 +102,8 @@ Passenger <-- Floor
 Passenger <-- Elevator
 Floor o-- Building
 Elevator o-- Building
-ElevatorStrategy o-- Elevator
-ElevatorStrategy <|.. BaseStrategy
+IElevatorStrategy o-- Elevator
+IElevatorStrategy <|.. BaseStrategy
 BaseStrategy <|-- DummStrategy
 BaseStrategy <|-- KindStrategy
 

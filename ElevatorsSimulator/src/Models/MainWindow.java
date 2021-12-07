@@ -229,15 +229,6 @@ public class MainWindow extends JPanel {
     }
     public void drawElevators(Elevator elevator, Graphics g)
     {
-        /*g.drawRect((int)elevator.getX(), (int)elevator.getY(), (int)elevatorWidth, (int)floorHeight);
-        g.setColor(new Color(103, 154, 199));
-        g.fillRect((int)elevator.getX(), (int)elevator.getY(), (int)elevator.getDoorWidth(), (int)floorHeight);
-        g.fillRect((int)elevator.getX() + (int)elevatorWidth - (int)elevator.getDoorWidth(), (int)elevator.getY(),
-                (int)elevator.getDoorWidth(), (int)floorHeight);
-        g.setColor(Color.BLACK);
-        g.drawRect((int)elevator.getX(), (int)elevator.getY(), (int)elevator.getDoorWidth(), (int)floorHeight);
-        g.drawRect((int)elevator.getX() + (int)elevatorWidth - (int)elevator.getDoorWidth(), (int)elevator.getY(),
-                (int)elevator.getDoorWidth(), (int)floorHeight);*/
         try {
             elevator.setDoorWidth(150);
             Image monster = ImageIO.read(new File("Images/monster.jpg"));
